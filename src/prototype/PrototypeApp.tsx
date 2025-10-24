@@ -105,16 +105,28 @@ function Dashboard({ go }: { go: (page: string) => void }) {
             <CardTitle className="flex items-center gap-2"><ChartBar className="h-5 w-5" /> Situação dos Lotes</CardTitle>
             <CardDescription>Distribuição por status</CardDescription>
           </CardHeader>
-          <CardContent className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={lotesPorStatus}>
-                <XAxis dataKey="status" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="qtde" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
+            <CardContent className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={lotesPorStatus}>
+                        <XAxis dataKey="status" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="qtde" radius={[8, 8, 0, 0]}>
+                            {lotesPorStatus.map((entry, index) => {
+                                let color;
+                                switch (entry.status) {
+                                    case "Concluído": color = "#22c55e"; break;
+                                    case "Pendente": color = "#eab308"; break;
+                                    case "Reprovado": color = "#ef4444"; break;
+                                    default: color = "#3b82f6";
+                                }
+                                return <Cell key={`cell-${index}`} fill={color} />;
+                            })}
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+            </CardContent>
+
         </Card>
 
         <Card className="lg:col-span-5 rounded-2xl">
@@ -484,7 +496,7 @@ export default function PrototypeApp() {
       {route !== "login" && (
         <div className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-            <div className="font-semibold">Regularização Fundiária • Protótipo</div>
+            <div className="font-semibold">Regularização Fundiária • Protótipooooooooooooooooooooooooo</div>
             <div className="ml-auto flex items-center gap-2">
               <Button variant={route === "dashboard" ? "default" : "ghost"} size="sm" onClick={() => go("dashboard")}>Dashboard</Button>
               <Button variant={route === "nucleo" ? "default" : "ghost"} size="sm" onClick={() => go("nucleo")}>Cadastro Núcleo</Button>
